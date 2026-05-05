@@ -16,11 +16,26 @@ import {
   RevenueTrendChart,
 } from "./Charts";
 import { InsightsPanel, type Insight } from "./InsightsPanel";
+import { TechnicalNotes } from "./TechnicalNotes";
+import { exportDashboardPdf } from "@/lib/pdf-export";
 import {
   generateSalesData,
   MONTH_ORDER,
   type SalesRecord,
 } from "@/lib/sales-data";
+
+const ALL_DATA = generateSalesData();
+
+function applyFilters(data: SalesRecord[], f: FilterState) {
+  return data.filter((r) => {
+    if (f.year !== "all" && String(r.year) !== f.year) return false;
+    if (f.quarter !== "all" && r.quarter !== f.quarter) return false;
+    if (f.region !== "all" && r.region !== f.region) return false;
+    if (f.category !== "all" && r.category !== f.category) return false;
+    if (f.rep !== "all" && r.rep !== f.rep) return false;
+    return true;
+  });
+}
 
 const ALL_DATA = generateSalesData();
 
