@@ -1,26 +1,21 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Dashboard } from "@/components/dashboard/Dashboard";
 
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "Sales Performance Dashboard · The Visual Project" },
+      {
+        name: "description",
+        content:
+          "Interactive sales analytics dashboard with KPIs, trends, regional breakdowns, and AI-driven insights for data-driven growth.",
+      },
+      { property: "og:title", content: "Sales Performance Dashboard" },
+      {
+        property: "og:description",
+        content: "Data-driven insights for strategic growth.",
+      },
+    ],
+  }),
+  component: Dashboard,
 });
-
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
-
-function Index() {
-  return <PlaceholderIndex />;
-}
