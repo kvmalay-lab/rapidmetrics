@@ -258,35 +258,6 @@ export function Dashboard() {
           onReset={() => setFilters(DEFAULT_FILTERS)}
         />
 
-        {/* KPIs */}
-        <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <KpiCard
-            label="Total Revenue"
-            value={fmtMoney(kpis.totalRevenue)}
-            changePct={kpis.revenueChange}
-            icon={DollarSign}
-          />
-          <KpiCard
-            label="Avg. Order Value"
-            value={fmtMoney(kpis.aov)}
-            changePct={kpis.aovChange}
-            icon={ShoppingCart}
-          />
-          <KpiCard
-            label="Customer Retention"
-            value={`${kpis.retention.toFixed(1)}%`}
-            changePct={kpis.retentionChange}
-            icon={Repeat}
-          />
-          <KpiCard
-            label="Reporting Efficiency"
-            value="15 min"
-            subtitle="Reduced from 4 hours — 94% faster"
-            icon={Clock}
-            highlight
-          />
-        </section>
-
         {/* Charts */}
         <section className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           <ChartCard
@@ -316,6 +287,8 @@ export function Dashboard() {
             <InsightsPanel insight={insight} />
           </div>
         </section>
+
+        <TechnicalNotes />
 
         <footer className="pt-2 pb-6 text-center text-xs text-muted-foreground">
           The Visual Project · {filtered.length.toLocaleString()} records in current view
