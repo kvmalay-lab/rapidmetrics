@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -5,7 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Filter, RotateCcw } from "lucide-react";
+import { ChevronDown, Filter, RotateCcw } from "lucide-react";
 import {
   ALL_CATEGORIES,
   ALL_QUARTERS,
@@ -37,8 +38,13 @@ type Props = {
 };
 
 export function Filters({ filters, onChange, onReset }: Props) {
+  const [openMobile, setOpenMobile] = useState(false);
   const set = <K extends keyof FilterState>(key: K, value: FilterState[K]) =>
     onChange({ ...filters, [key]: value });
+
+  const activeCount = Object.entries(filters).filter(
+    ([k, v]) => !(k === "year" && v === "2025") && v !== "all",
+  ).length;
 
   return (
     <div className="rounded-xl border border-border bg-card p-4 shadow-[var(--shadow-card)]">
@@ -46,18 +52,38 @@ export function Filters({ filters, onChange, onReset }: Props) {
         <div className="flex items-center gap-2 text-sm font-medium text-foreground">
           <Filter className="h-4 w-4 text-accent" />
           Global Filters
+          {activeCount > 0 && (
+            <span className="rounded-full bg-accent/15 px-2 py-0.5 text-[10px] font-semibold text-accent">
+              {activeCount} active
+            </span>
+          )}
         </div>
-        <button
-          type="button"
-          onClick={onReset}
-          className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-        >
-          <RotateCcw className="h-3 w-3" />
-          Reset
-        </button>
+        <div className="flex items-center gap-1">
+          <button
+            type="button"
+            onClick={onReset}
+            className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          >
+            <RotateCcw className="h-3 w-3" />
+            Reset
+          </button>
+          <button
+            type="button"
+            onClick={() => setOpenMobile((v) => !v)}
+            aria-expanded={openMobile}
+            className="inline-flex items-center gap-1 rounded-md border border-border px-2 py-1 text-xs font-medium text-foreground transition-colors hover:bg-muted md:hidden"
+          >
+            {openMobile ? "Hide" : "Show"}
+            <ChevronDown
+              className={`h-3 w-3 transition-transform ${openMobile ? "rotate-180" : ""}`}
+            />
+          </button>
+        </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
+      <div
+        className={`${openMobile ? "grid" : "hidden"} grid-cols-2 gap-3 md:grid md:grid-cols-5`}
+      >
         <FilterSelect
           label="Year"
           value={filters.year}
