@@ -182,16 +182,75 @@ export function Dashboard() {
           </div>
           <button
             type="button"
-            onClick={() => alert("Export simulated — PDF report would be generated.")}
-            className="inline-flex items-center justify-center gap-2 self-start rounded-lg bg-white/15 px-4 py-2 text-sm font-medium text-primary-foreground backdrop-blur transition-colors hover:bg-white/25 md:self-auto"
+            onClick={() =>
+              exportDashboardPdf({
+                filtersSummary: `Year: ${filters.year} · Quarter: ${filters.quarter} · Region: ${filters.region} · Category: ${filters.category} · Rep: ${filters.rep}`,
+                kpis: [
+                  {
+                    label: "Total Revenue",
+                    value: fmtMoney(kpis.totalRevenue),
+                    change: `${kpis.revenueChange >= 0 ? "+" : ""}${kpis.revenueChange.toFixed(1)}% YoY`,
+                  },
+                  {
+                    label: "Avg. Order Value",
+                    value: fmtMoney(kpis.aov),
+                    change: `${kpis.aovChange >= 0 ? "+" : ""}${kpis.aovChange.toFixed(1)}% YoY`,
+                  },
+                  {
+                    label: "Customer Retention",
+                    value: `${kpis.retention.toFixed(1)}%`,
+                    change: `${kpis.retentionChange >= 0 ? "+" : ""}${kpis.retentionChange.toFixed(1)} pts`,
+                  },
+                  {
+                    label: "Reporting Efficiency",
+                    value: "4 hrs → 15 min",
+                    change: "94% faster",
+                  },
+                ],
+                regionRows: regionData,
+                categoryRows: categoryData,
+                trendRows: trendData,
+                insight,
+              })
+            }
+            className="inline-flex items-center justify-center gap-2 self-start rounded-lg bg-white px-4 py-2 text-sm font-semibold text-primary shadow-md backdrop-blur transition-all hover:bg-white/90 hover:shadow-lg md:self-auto"
           >
             <Download className="h-4 w-4" />
-            Export PDF
+            Export Report
           </button>
         </div>
       </header>
 
       <main className="mx-auto max-w-7xl space-y-6 px-4 py-6 md:px-8">
+        {/* KPIs — first on mobile for the recruiter 10-second view */}
+        <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <KpiCard
+            label="Reporting Efficiency"
+            value="4 hrs → 15 min"
+            subtitle="94% faster · automated reporting"
+            icon={Clock}
+            highlight
+          />
+          <KpiCard
+            label="Total Revenue"
+            value={fmtMoney(kpis.totalRevenue)}
+            changePct={kpis.revenueChange}
+            icon={DollarSign}
+          />
+          <KpiCard
+            label="Avg. Order Value"
+            value={fmtMoney(kpis.aov)}
+            changePct={kpis.aovChange}
+            icon={ShoppingCart}
+          />
+          <KpiCard
+            label="Customer Retention"
+            value={`${kpis.retention.toFixed(1)}%`}
+            changePct={kpis.retentionChange}
+            icon={Repeat}
+          />
+        </section>
+
         {/* Filters */}
         <Filters
           filters={filters}
