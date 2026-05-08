@@ -1,13 +1,9 @@
-import { defineConfig } from '@vitejs/plugin-react';
-import viteTsconfigPaths from 'vite-tsconfig-paths';
+import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
-  plugins: [viteTsconfigPaths()],
-  server: {
-    port: 3000,
-  },
-  build: {
-    outDir: 'dist',
-    sourcemap: false,
-  },
+  tanstackStart: {
+    server: {
+      preset: 'vercel'
+    }
+  }
 });
