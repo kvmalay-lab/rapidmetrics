@@ -4,7 +4,7 @@ import { Dashboard } from "@/components/dashboard/Dashboard";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Sales Performance Dashboard · The Visual Project" },
+      { title: "Sales Performance Dashboard · RapidMetrics" },
       {
         name: "description",
         content:
